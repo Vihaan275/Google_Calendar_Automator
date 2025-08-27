@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
+from ask_gemini import get_ai_response
 
 
 load_dotenv()
@@ -20,5 +21,11 @@ async def on_message(message):
     if message.author == client.user:
         return
     else:
-        
+        process = get_ai_response(message.content)
+
+        print(process)
+
+client.run(disc_tok)
+
+
     
