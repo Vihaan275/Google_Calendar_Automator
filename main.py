@@ -8,6 +8,9 @@ from gcsa.google_calendar import GoogleCalendar
 import ast
 from gcsa.event import Event
 from datetime import datetime
+from keep_alive import keep_alive
+
+
 
 load_dotenv()
 
@@ -38,19 +41,26 @@ async def on_message(message):
 
         if process != 'No Club Meeting':
             main_contents = ast.literal_eval(process)
-            name,event_type, year, month, date,start_hour,start_min,end_hour,end_min,place = main_contents
+            name,event_type, year, month, date,start_hour,start_min,end_hour,end_min,place,action = main_contents
             
-            event = Event(
-                name+event_type,
-                start=datetime(year,month,date,start_hour,start_min),
-                end=datetime(year,month,date,end_hour,end_min),
-                location=place,
-                minutes_before_popup_reminder=30
-            )
+            if action == 'add':
+                event = Event(
+                    name+event_type,
+                    start=datetime(year,month,date,start_hour,start_min),
+                    end=datetime(year,month,date,end_hour,end_min),
+                    location=place,
+                    minutes_before_popup_reminder=30
+                )
 
-            calendar.add_event(event)
+                calendar.add_event(event)
 
-            print('added event')
+                print('added event')
+            
+            elif action == 'update':
+                pass
+
+            elif action == 'remove':
+                pass
 
         
 client.run(disc_tok)
