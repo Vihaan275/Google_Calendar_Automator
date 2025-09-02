@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 import os
-from google import genai
-
+import google.generativeai as genai
 
 load_dotenv()
 
@@ -31,10 +30,14 @@ if the message is a cancellation of a meeting, then you say 'remove' as the fina
 #[name,event type, year, month, date,start_time,end_time,location]
 
 def get_ai_response(your_question,api = gemini_api,question=default_question):
-    client = genai.Client(api_key = api)
-    response = client.models.generate_content(
-        model ='gemini-2.5-flash-lite',
-        contents =default_question+your_question
-    )
-
+    
+    # Configure the API key
+    genai.configure(api_key=api)
+    
+    # Create a model instance
+    model = genai.GenerativeModel('gemini-2.5-flash')
+    
+    # Generate content
+    response = model.generate_content(question + your_question)
+    
     return response.text
