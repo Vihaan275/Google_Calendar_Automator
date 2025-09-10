@@ -45,7 +45,7 @@ async def on_message(message):
             
             if action == 'add':
                 event = Event(
-                    name+event_type,
+                    name+' '+event_type,
                     start=datetime(year,month,date,start_hour,start_min),
                     end=datetime(year,month,date,end_hour,end_min),
                     location=place,

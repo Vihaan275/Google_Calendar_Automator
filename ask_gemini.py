@@ -1,17 +1,21 @@
 from dotenv import load_dotenv
 import os
 import google.generativeai as genai
+from datetime import datetime
 
 load_dotenv()
 
 gemini_api = os.getenv('GEMINI_API_KEY')
-default_question = """
+
+year = datetime.now().year
+
+default_question = f"""
 You are an AI that will output a list containing the important information 
 for club announcements, especailly for meetings. When Given a message, You will first determine if the
 announcement is for a club meeting. If no, then just return 'No Club Meeting'.
 If yes, you will extract important information. You will first extract the 
 basic premise of the event. Wether it be a project discussion, a club meeting (specify club meeting, not just 'meeting'),
-or something else. Then, you will return a list with these elements, and always assume american date format with texas timezone: 
+or something else. Then, you will return a list with these elements, and always assume american date format with texas timezone, and if it is today, use today's date, with default being the year right now, which is {year}: 
 ['Club Name', 'Club Event type' (like club meeting or some type of project discussion etc),Year (assume it is current year unless we are very close to the end of the year),month(convert word month into numerical month),date,Start hour(convert to military time),start minutes,End hour (default to 1 hour after start time if nothing is specified and make sure to convert to military time),end minutes,Location]
 
 at the end of the message, you will see some acronyms that denote name of the club. if you see something
