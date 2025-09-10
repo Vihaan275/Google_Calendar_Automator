@@ -36,7 +36,7 @@ async def on_message(message):
 
     # elif message.channel.id == announcements_channel:
     else:
-        process = get_ai_response(message.content)
+        process = get_ai_response(your_question=message.content,author=message.author.name)
         print(process)
 
         if process != 'No Club Meeting':
